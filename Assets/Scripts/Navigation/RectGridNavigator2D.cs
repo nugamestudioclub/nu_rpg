@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace NuRpg.Navigation {
 	public class RectGridNavigator2D : IPathFinder<Vector2Int> {
-		public RectGridNavigator2D(Vector2Int bounds) {
-			Bounds = bounds;
+		public RectGridNavigator2D(Vector2Int size) {
+			Size = size;
 		}
 
-		private Vector2Int bounds;
-		public Vector2Int Bounds {
-			get => bounds;
+		private Vector2Int size;
+		public Vector2Int Size {
+			get => size;
 			set {
 				ThrowIfArgumentDimensionNegative(value, nameof(value));
-				bounds = value;
+				size = value;
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace NuRpg.Navigation {
 		}
 
 		private void ThrowIfArgumentOutOfBounds(Vector2Int value, string name) {
-			if( value.x < 0 || value.x > bounds.x || value.y < 0 || value.y > bounds.y )
+			if( value.x < 0 || value.x >= size.x || value.y < 0 || value.y >= size.y )
 				throw new ArgumentOutOfRangeException(name);
 		}
 	}
