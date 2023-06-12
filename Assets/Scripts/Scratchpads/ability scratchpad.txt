@@ -1,0 +1,15 @@
+Global functions
+	Objs GetObjectsInShape(IShape shape, Point origin)
+	Objs FilterByType(int type) //type is a bitmask of types
+	Objs FilterByTeam(int team) //bitmask 
+	
+
+X origin, 0 effected area
+Fireball  
+ 0
+0X0
+ 0
+
+Objs targets = GetObjectsInShape(circle, new (1,2)).FilterByType(actors: 1).FilterByTeam(enemy: 0);
+foreach target: target
+	target.ApplyEffect(FireballEffect);
