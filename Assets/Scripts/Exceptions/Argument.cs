@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -35,6 +36,11 @@ namespace NuRpg.Exceptions {
 		public static void ThrowIfCountNotEqual(int actualValue, int expectedValue, string paramName = null) {
 			if( actualValue != expectedValue )
 				throw new ArgumentException($"Count must be {expectedValue}.", paramName);
+		}
+
+		public static void ThrowIfCountNotEqual<T1, T2>(ICollection<T1> collection1, ICollection<T2> collection2, string name1, string name2) {
+			if( collection1.Count != collection2.Count )
+				Throw($"Specified arguments do not contain the same number of elements.", name1, name2);
 		}
 
 		[Discardable]

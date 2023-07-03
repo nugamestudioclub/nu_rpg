@@ -1,9 +1,12 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace NuRpg.Exceptions {
 	public static class ArgumentNull {
-		public static void ThrowIfNull(object value, string paramName = null) {
-			if( value == null )
+		public static void ThrowIfNull([NotNull] object? argument, string? paramName = null) {
+			if( argument == null )
 				throw new ArgumentNullException(paramName);
 		}
 	}
