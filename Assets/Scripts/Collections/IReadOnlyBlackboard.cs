@@ -12,9 +12,9 @@ namespace NuRpg.Collections {
 		T GetValue<T>(string name);
 		object GetValue(string name);
 		T? GetValueOrDefault<T>(string name);
-		[return: NotNullIfNotNull(nameof(defaultValue))]
+		//[return: NotNullIfNotNull(nameof(defaultValue))]
 		T? GetValueOrDefault<T>(string name, T? defaultValue);
-		[return: NotNullIfNotNull(nameof(defaultValue))]
+		//[return: NotNullIfNotNull(nameof(defaultValue))]
 		object? GetValueOrDefault(string name, object defaultValue);
 		object? GetValueOrNull(string name);
 		bool TryGetValue<T>(string name, [NotNullWhen(true)] out T? value);

@@ -110,7 +110,7 @@ namespace NuRpg.Collections {
 				: default;
 		}
 
-		[return: NotNullIfNotNull(nameof(defaultValue))]
+		//[return: NotNullIfNotNull(nameof(defaultValue))]
 		public T? GetValueOrDefault<T>(string name, T? defaultValue) {
 			Exceptions.ArgumentNull.ThrowIfNull(name, nameof(name));
 			return TryGetValue<T>(name, out var value)
@@ -118,7 +118,7 @@ namespace NuRpg.Collections {
 				: defaultValue;
 		}
 
-		[return: NotNullIfNotNull(nameof(defaultValue))]
+		//[return: NotNullIfNotNull(nameof(defaultValue))]
 		public object? GetValueOrDefault(string name, object defaultValue) {
 			Exceptions.ArgumentNull.ThrowIfNull(name, nameof(name));
 			Exceptions.ArgumentNull.ThrowIfNull(defaultValue, nameof(defaultValue));
