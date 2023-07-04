@@ -1,4 +1,6 @@
+using NuRpg.Collections;
 using System;
+using UnityEngine;
 
 namespace NuRpg.Actions
 {
@@ -9,18 +11,21 @@ namespace NuRpg.Actions
         {
             this.actor = actor;
         }
-        public bool CanUndo() => false; //change later
+        public bool CanUndo(IBlackboard context) => false; //change later
 
-        public void Do()
+        public void Do(IBlackboard context)
         {
-            Random random = new();
-            int range = 10;
-            int x = random.Next(range);
-            int y = random.Next(range);
-            actor.Move(x, y);
+            string key = "position";
+            if (context.TryGetValue(key, out Vector2Int vector)) {
+                actor.Move(vector.x, vector.y);
+            }
+            else
+            {
+                Debug.Log($"No context key: {key}");
+            }
         }
 
-        public bool Undo()
+        public bool Undo(IBlackboard context)
         {
             throw new System.NotImplementedException();
         }

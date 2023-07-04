@@ -2,6 +2,7 @@ using UnityEngine;
 using NuRpg.Actions;
 using NuRpg.Collections;
 using System;
+using Random = System.Random;
 //We should make a general interface for
 //actors that have common behavior (move, attack, etc)
 public class Actor : MonoBehaviour, IActor
@@ -10,6 +11,9 @@ public class Actor : MonoBehaviour, IActor
     public ITimeQueue<IAction> ActionQueue => actionQueue;
 
     private IAction moveAction;
+
+    [SerializeField]
+    private float moveScale = 1;
     void Start()
     {
         moveAction = new MoveAction(this);
@@ -27,7 +31,13 @@ public class Actor : MonoBehaviour, IActor
         {
             if (ActionQueue.TryDequeue(out IAction action))
             {
-                action.Do();
+                IBlackboard context = new Blackboard(); 
+                Random random = new();
+                int range = 5;
+                int x = random.Next(-range, range);
+                int y = random.Next(range);
+                context.SetValue("position", new Vector2Int(x, y));
+                action.Do(context);
             }
             else
             {
@@ -39,6 +49,6 @@ public class Actor : MonoBehaviour, IActor
     public void Move(int x, int y)
     {
         Debug.Log($"Moving to ({x},{y})");
-        transform.position = new Vector3(x, y);
+        transform.position = new Vector3(x, y) * moveScale + new Vector3(.5f* moveScale, .5f * moveScale);
     }
 }

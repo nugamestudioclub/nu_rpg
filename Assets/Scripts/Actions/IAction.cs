@@ -1,8 +1,9 @@
+using NuRpg.Collections;
+
 namespace NuRpg.Actions {
 	public interface IAction {
-        //These all need the context
-        bool CanUndo();
-		void Do(); 
-		bool Undo();
+        bool CanUndo(IBlackboard context);
+		void Do(IBlackboard context); 
+		bool Undo(IBlackboard context);
 	}
 }
