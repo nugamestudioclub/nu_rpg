@@ -29,7 +29,7 @@ public class Actor : MonoBehaviour, IActor
         }
         else if (Input.GetKeyUp(KeyCode.Space))
         {
-            if (ActionQueue.TryDequeue(out IAction action))
+            if (ActionQueue.TryDequeueFront(out IAction action))
             {
                 IBlackboard context = new Blackboard(); 
                 Random random = new();

@@ -9,6 +9,8 @@ namespace NuRpg.Collections {
 
 		IList<(T Element, DateTimeSpan Span)> DelayedItems { get; }
 
+		DateTime Now { get; }
+
 		void Clear();
 
 		void Delay(T element, TimeSpan duration);
@@ -17,23 +19,23 @@ namespace NuRpg.Collections {
 			Delay(element, TimeSpan.FromDays(days));
 		}
 
-		public void DelayHours(T element, double hours) {
+		void DelayHours(T element, double hours) {
 			Delay(element, TimeSpan.FromHours(hours));
 		}
 
-		public void DelayMilliSeconds(T element, double milliseconds) {
+		void DelayMilliSeconds(T element, double milliseconds) {
 			Delay(element, TimeSpan.FromMilliseconds(milliseconds));
 		}
 
-		public void DelayMinutes(T element, double minutes) {
+		void DelayMinutes(T element, double minutes) {
 			Delay(element, TimeSpan.FromMinutes(minutes));
 		}
 
-		public void DelaySeconds(T element, double seconds) {
+		void DelaySeconds(T element, double seconds) {
 			Delay(element, TimeSpan.FromSeconds(seconds));
 		}
 
-		public void DelayTicks(T element, long ticks) {
+		void DelayTicks(T element, long ticks) {
 			Delay(element, TimeSpan.FromTicks(ticks));
 		}
 
@@ -47,11 +49,17 @@ namespace NuRpg.Collections {
 
 		void EnqueueBack(T element);
 
-		T Peek();
+		T PeekBack();
 
-		bool TryDequeue([MaybeNullWhen(false)] out T element);
+		T PeekFront();
 
-		bool TryPeek([MaybeNullWhen(false)] out T element);
+		bool TryDequeueBack([MaybeNullWhen(false)] out T element);
+
+		bool TryDequeueFront([MaybeNullWhen(false)] out T element);
+
+		bool TryPeekBack([MaybeNullWhen(false)] out T element);
+
+		bool TryPeekFront([MaybeNullWhen(false)] out T element);
 
 		void Update(TimeSpan delta);
 

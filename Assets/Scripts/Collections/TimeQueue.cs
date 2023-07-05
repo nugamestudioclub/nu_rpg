@@ -1,25 +1,30 @@
 using NuRpg.Units;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace NuRpg.Collections {
 	public class TimeQueue<T> : ITimeQueue<T> {
 		private readonly DelayQueue<T> _delayQueue;
-		private readonly PriorityQueue<T, int> _priorityQueue;
+		private readonly ReadOnlyCollection<(T Element, DateTimeSpan Span)> _delayedItems;
+		private readonly PriorityDeque<T, int> _priorityQueue;
+		private readonly ReadOnlyCollection<(T Element, int Priority)> _priorityItems;
 
 		public TimeQueue(DateTime time) {
 			_delayQueue = new(time);
 			_priorityQueue = new();
+			_priorityItems = new(_priorityQueue.Items);
 		}
 
-		// TODO: Don't copy
-		public IList<(T Element, DateTimeSpan Span)> DelayedItems => _delayQueue.UnorderedItems.ToList();
+		public ReadOnlyCollection<(T Element, DateTimeSpan Span)> DelayedItems => _delayedItems;
+		IList<(T Element, DateTimeSpan Span)> ITimeQueue<T>.DelayedItems => _delayedItems;
 
-		// TODO: Don't copy
-		public IList<(T Element, int Priority)> PriorityItems => _priorityQueue.UnorderedItems.ToList();
+		public ReadOnlyCollection<(T Element, int Priority)> PriorityItems => _priorityItems;
+		IList<(T Element, int Priority)> ITimeQueue<T>.PriorityItems => _priorityItems;
 
-		public DateTime Time => _delayQueue.Time;
+		public DateTime Now => _delayQueue.Now;
 
 		public void Clear() {
 			_delayQueue.Clear();
@@ -31,11 +36,11 @@ namespace NuRpg.Collections {
 		}
 
 		public T Dequeue() {
-			return _priorityQueue.Dequeue();
+			return _priorityQueue.DequeueFront();
 		}
 
 		public void Enqueue(T element) {
-			_priorityQueue.Enqueue(element, priority: 0);
+			_priorityQueue.Enqueue(element);
 		}
 
 		public void Enqueue(T element, int priority) {
@@ -43,23 +48,35 @@ namespace NuRpg.Collections {
 		}
 
 		public void EnqueueBack(T element) {
-			throw new NotImplementedException();
+			_priorityQueue.EnqueueBack(element);
 		}
 
 		public void EnqueueFront(T element) {
-			throw new NotImplementedException();
+			_priorityQueue.EnqueueFront(element);
 		}
 
-		public T Peek() {
-			return _priorityQueue.Peek();
+		public T PeekFront() {
+			return _priorityQueue.PeekFront();
 		}
 
-		public bool TryDequeue(out T element) {
-			return _priorityQueue.TryDequeue(out element, out _);
+		public T PeekBack() {
+			return _priorityQueue.PeekFront();
 		}
 
-		public bool TryPeek(out T element) {
-			return _priorityQueue.TryPeek(out element, out _);
+		public bool TryDequeueBack([MaybeNullWhen(false)] out T element) {
+			return _priorityQueue.TryDequeueBack(out element, out _);
+		}
+
+		public bool TryDequeueFront([MaybeNullWhen(false)] out T element) {
+			return _priorityQueue.TryDequeueFront(out element, out _);
+		}
+
+		public bool TryPeekBack([MaybeNullWhen(false)] out T element) {
+			return _priorityQueue.TryPeekBack(out element, out _);
+		}
+
+		public bool TryPeekFront([MaybeNullWhen(false)] out T element) {
+			return _priorityQueue.TryPeekFront(out element, out _);
 		}
 
 		public void Update(TimeSpan delta) {
