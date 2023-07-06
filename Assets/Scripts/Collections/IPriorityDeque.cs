@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace NuRpg.Collections {
+	// Double-ended priority queue with FIFO for same-priority
 	public interface IPriorityDeque<TElement, TPriority> :
 		IReadOnlyPriorityDeque<TElement, TPriority> {
 		new IList<(TElement Element, TPriority Priority)> Items { get; }

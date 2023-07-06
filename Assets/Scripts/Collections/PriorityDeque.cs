@@ -42,14 +42,16 @@ namespace NuRpg.Collections {
 
 		public PriorityDeque(IEnumerable<(TElement Element, TPriority Priority)> items, IComparer<TPriority>? comparer, TPriority? defaultPriority) {
 			Exceptions.ArgumentNull.ThrowIfNull(items, nameof(items));
-			_backList = new(items);
-			_frontList = new(_backList.Count);
-			for( int i = _frontList.Count - 1; i >= 0; --i )
-				_frontList.Add(_backList[i]);
-			for( int i = _frontList.Count; i < _backList.Count; ++i )
-				_backList[i - _frontList.Count] = _backList[i];
-			_backList.RemoveRange(_frontList.Count, _backList.Count);
 			_comparer = comparer ?? Comparer<TPriority>.Default;
+			_backList = new(items);
+			_backList.Sort(CompareByPriorityBack());
+			_frontList = new(_backList.Count);
+			int frontCount = _backList.Count / 2 + _backList.Count % 2;
+			for( int i = frontCount - 1; i >= 0; --i )
+				_frontList.Add(_backList[i]);
+			for( int i = frontCount; i < _backList.Count; ++i )
+				_backList[i - frontCount] = _backList[i];
+			_backList.RemoveRange(frontCount, _backList.Count - frontCount);
 			_defaultPriority = defaultPriority;
 			_items = new(this);
 		}
@@ -257,22 +259,6 @@ namespace NuRpg.Collections {
 			return Comparer<(TElement Element, TPriority Priority)>.Create(
 				(b, a) => _comparer.Compare(a.Priority, b.Priority)
 			);
-		}
-
-		private void Copy(IList<(TElement Element, TPriority Priority)> list) {
-			int frontCount = list.Count / 2 + list.Count % 2;
-			for( int i = frontCount - 1; i >= 0; --i )
-				_frontList.Add(list[i]);
-			for( int i = frontCount; i < list.Count; ++i )
-				_backList.Add(list[i]);
-		}
-
-		private void Copy(IReadOnlyList<(TElement Element, TPriority Priority)> list) {
-			int frontCount = list.Count / 2 + list.Count % 2;
-			for( int i = frontCount - 1; i >= 0; --i )
-				_frontList.Add(list[i]);
-			for( int i = frontCount; i < list.Count; ++i )
-				_backList.Add(list[i]);
 		}
 
 		private int GetAbsoluteIndex(bool isFront, int relativeIndex) {
