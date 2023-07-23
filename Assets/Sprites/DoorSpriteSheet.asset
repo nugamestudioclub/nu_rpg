@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb146f9ad440c804d8f9d9fa16a40454, type: 3}
+  m_Name: DoorSpriteSheet
+  m_EditorClassIdentifier: 
+  <Opened>k__BackingField: {fileID: 21300000, guid: cf7fa4a5b98a6f74cafc8f1b38559453, type: 3}
+  <Closed>k__BackingField: {fileID: 21300000, guid: d1d4154005372b448982bcd3d7f0b144, type: 3}
