@@ -1,9 +1,8 @@
 using NuRpg.Collections;
+using NuRpg.Environment;
 using NuRpg.Services;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace NuRpg.ServiceTesting {
@@ -24,7 +23,7 @@ namespace NuRpg.ServiceTesting {
 			if( data.TryGetValue<string>("resource", out var resource) && resource == "door" ) {
 				var door = Instantiate(_door);
 				var position = data.GetValue<System.Numerics.Vector3>("position");
-				door.transform.position = new Vector3(position.X, position.Y, position.Z);
+				door.transform.position = position.AsUnity();
 				_views[id] = door;
 				door.Selected += EntityView_Selected;
 			}
@@ -34,11 +33,7 @@ namespace NuRpg.ServiceTesting {
 				foreach( var (action, status) in actions )
 					doorUI.Add(action, status);
 				var doorView = (DoorView)_views[id];
-				doorUI.Position = new System.Numerics.Vector3(
-					doorView.transform.position.x,
-					doorView.transform.position.y,
-					doorView.transform.position.z
-				);
+				doorUI.Position = doorView.transform.position.AsSystem();
 				doorUI.Visible = true;
 			}
 		}

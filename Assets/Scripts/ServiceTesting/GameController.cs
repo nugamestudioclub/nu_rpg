@@ -1,9 +1,9 @@
 using NuRpg.Collections;
-using NuRpg.ServiceTesting;
+using NuRpg.Services;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NuRpg.Services {
+namespace NuRpg.ServiceTesting {
 	public class GameController : IGameController {
 		private IGameModel _model;
 		
