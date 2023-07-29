@@ -57,7 +57,7 @@ namespace NuRpg.ServiceTesting {
 		private void GameView_Updating(object sender, UpdateViewEventArgs e) {
 
 		}
-												
+
 		private void GameView_Deleting(object sender, DeleteViewEventArgs e) {
 
 		}
